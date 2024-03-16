@@ -16,7 +16,7 @@ int sign(float f)
     else return -1;
 }
 
-int initialize()
+int hebb_single_pattern()
 {
     w = calloc(25, sizeof(float));
 
@@ -32,7 +32,7 @@ int initialize()
     }
 }
 
-int recall()
+int hopfield_nn()
 {
     float sgn;
     int rnd;
@@ -68,8 +68,8 @@ int main()
     printf("\n\ninitial nn condition:");
     print_array(res);
 
-    initialize();
-    recall();
+    hebb_single_pattern();
+    hopfield_nn();
 
     printf("\n\nmemory response");
     print_array(res);
