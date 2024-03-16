@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-unsigned int seed = 10;
+unsigned int seed = 25;
 
 int *str;
 int res[5] = {1,-1,1,1,1};
@@ -10,7 +10,7 @@ float *w;
 
 int deep = 1000;
 
-int define_stored()
+void define_stored()
 {
     str = calloc(5*3, sizeof(int));
 
@@ -30,7 +30,7 @@ int sign(float f)
     else return -1;
 }
 
-int hebb_single_pattern()
+void hebb_many_pattern()
 {
     w = calloc(25, sizeof(float));
 
@@ -40,13 +40,18 @@ int hebb_single_pattern()
         {
             if (i != j)
             {
-                *(w + 5*i + j) = (*(str + i) * (float)*(str + j)) / 5.0f;
+                *(w + 5*i + j) = 0.0f;
+                for (int u=0 ; u<3 ; u++)
+                {
+                    *(w + 5*i + j) += (float)*(str + 3*u + i) * *(str + 3*u + j);
+                }
+                *(w + 5*i + j) /= 5.0f;
             }
         }
     }
 }
 
-int hopfield_nn()
+void hopfield_nn()
 {
     float sgn;
     int rnd;
@@ -87,16 +92,16 @@ void print_stored(int *arr)
 
 int main() 
 {
-    define_stored();
-
     srand(seed);
+    
+    define_stored();
 
     printf("stored array:\n");
     print_stored(str);
     printf("\n\ninitial nn condition:");
     print_array(res);
 
-    hebb_single_pattern();
+    hebb_many_pattern();
     hopfield_nn();
 
     printf("\n\nmemory response");
